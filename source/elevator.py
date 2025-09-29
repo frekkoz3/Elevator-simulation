@@ -10,10 +10,15 @@ class Elevator():
         self.floor = 0
         self.number_of_floor = number_of_floor
         self.history = { i : 0 for i in range (number_of_floor)}
+
+    def double_call(self, floors : tuple):
+        for f in floors:
+            self.call(f)
     
     def call(self, floor):
         if floor < 0 or floor > self.number_of_floor:
-            raise ValueError("Invalid floor.")
+            return 
+        print(f"Elevator at the floor {self.floor}. Called from the floor {floor}.")
         if self.floor == floor:
             return 
         self.floor = floor

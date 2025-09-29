@@ -29,9 +29,8 @@ class Individual():
         
         if action:
             call = self.decision_model.outer_call(time, self.living_floor) if self.outside else self.decision_model.inner_call(time, self.living_floor)
-            print(f"{call} : {self.actual_floor}")
             if call:
-                request = 0, self.living_floor if self.outside else self.living_floor, 0 # tuple of floor to visit
+                request = 0, self.living_floor if self.inside else self.living_floor, 0 # tuple of floor to visit
 
         # Update state
         if action and self.outside:
