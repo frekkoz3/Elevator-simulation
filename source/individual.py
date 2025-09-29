@@ -1,4 +1,4 @@
-from decision import *
+from .decision import *
 
 class Individual():
     """
@@ -13,6 +13,7 @@ class Individual():
         self.decision_model = decision_model
         self.inside = True
         self.outside = False
+        self.actual_floor = self.living_floor
         
     def call(self, time):
         """
@@ -23,18 +24,26 @@ class Individual():
             will return the floor number (0 or living floor) if decided to call the elevator, -1 otherwise.
         """
         action = self.decision_model.enter(time) if self.outside else self.decision_model.exit(time)
+
+        request = -1, -1
+        
+        if action:
+            call = self.decision_model.outer_call(time, self.living_floor) if self.outside else self.decision_model.inner_call(time, self.living_floor)
+            print(f"{call} : {self.actual_floor}")
+            if call:
+                request = 0, self.living_floor if self.outside else self.living_floor, 0 # tuple of floor to visit
+
         # Update state
         if action and self.outside:
             self.inside = True
             self.outside = False
+            self.actual_floor = self.living_floor
         if action and self.inside:
             self.inside = False
             self.outside = True
-        if action:
-            call = self.decision_model.outer_call(time, self.living_floor) if self.outside else self.decision_model.inner_call(time, self.living_floor)
-        else:
-            call = -1
-        return call
+            self.actual_floor = 0
+
+        return request
     
     def get_state(self):
         return self.inside, self.outside    

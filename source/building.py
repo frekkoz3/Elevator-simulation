@@ -1,7 +1,6 @@
-import numpy as np
-from elevator import *
-from individual import *
-from decision import *
+from .elevator import *
+from .individual import *
+from .decision import *
 
 class Building():
     """
@@ -49,7 +48,4 @@ class Building():
     
 if __name__ == "__main__":
     
-    decisioner = Decision_model()
-    building = Building(6, 2, decisioner)
-    building.simulate(7)
-    print(building.elev.get_history())
+    pass
