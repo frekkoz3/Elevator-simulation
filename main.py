@@ -16,17 +16,16 @@ if __name__ == '__main__':
     # -- Parameters setting --
     exit_schedule = [60*8]
     enter_schedule = [60*12]
-    floor_threshold = 2
-    number_of_floors = 4
-    apartment_per_floor = 1
+    floor_threshold = 5
+    number_of_floors = 7
+    apartment_per_floor = 2
     # -- Object initialiazing --
-    decisioner = Simple_deterministic_model(exit_schedule= exit_schedule, enter_schedule=enter_schedule, floor_threshold=floor_threshold)
+    decisioner = Simple_deterministic_model(enter_schedule=enter_schedule, exit_schedule= exit_schedule, floor_threshold=floor_threshold)
+    decisioner = Simple_probabilistic_logistic_model(enter_schedule=enter_schedule, exit_schedule= exit_schedule, floor_threshold=floor_threshold)
     building = Building(number_of_floors, apartment_per_floor, decisioner)
     # -- Simulation --
-    number_of_days = 2
+    number_of_days = 30
     building.simulate(number_of_days)
     # -- Retrieve empiric probability distribution --
     print(building.elev.get_history())
-    """ 
-        NOT WORKING RIGHT NOW -> to debug the elevator count 
-    """
+    building.elev.plot()

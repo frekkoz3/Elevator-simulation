@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+
 class Elevator():
     """
         This class is dedicated to the representation of a simple elevator. 
@@ -18,7 +20,7 @@ class Elevator():
     def call(self, floor):
         if floor < 0 or floor > self.number_of_floor:
             return 
-        print(f"Elevator at the floor {self.floor}. Called from the floor {floor}.")
+        print(f"Elevator at floor {self.floor}. Requested at floor {floor}.")
         if self.floor == floor:
             return 
         self.floor = floor
@@ -26,6 +28,19 @@ class Elevator():
     
     def get_history(self):
         return self.history
+    
+    def plot(self):
+        x = list(self.history.keys())
+        y = list(self.history.values())
+
+        plt.bar(x, y, width=0.6, color='skyblue', edgecolor='black')
+
+        plt.xlabel("Floor number")
+        plt.ylabel("Call")
+        plt.title("History Histogram")
+        plt.xticks(x)  # show all bins on x-axis
+        plt.show()
+
     
 
     

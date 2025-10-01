@@ -1,4 +1,5 @@
 from .decision import *
+import random 
 
 class Individual():
     """
@@ -8,12 +9,13 @@ class Individual():
         of space for experimentation (eg age).
     """
 
-    def __init__(self, living_floor, decision_model : Decision_model):
+    def __init__(self, living_floor, name, decision_model : Decision_model):
         self.living_floor = living_floor
         self.decision_model = decision_model
         self.inside = True
         self.outside = False
         self.actual_floor = self.living_floor
+        self.name = name
         
     def call(self, time):
         """
@@ -25,12 +27,14 @@ class Individual():
         """
         action = self.decision_model.enter(time) if self.outside else self.decision_model.exit(time)
 
-        request = -1, -1
+        request = [-1, -1]
         
         if action:
             call = self.decision_model.outer_call(time, self.living_floor) if self.outside else self.decision_model.inner_call(time, self.living_floor)
             if call:
-                request = 0, self.living_floor if self.inside else self.living_floor, 0 # tuple of floor to visit
+                print(self.get_state())
+                request = [0, self.living_floor] if self.outside else [self.living_floor, 0] # tuple of floor to visit
+
 
         # Update state
         if action and self.outside:
@@ -45,8 +49,7 @@ class Individual():
         return request
     
     def get_state(self):
-        return self.inside, self.outside    
-    
+        return str(self.name) + " is inside" if self.inside else str(self.name) + " is outside"
     
 
         

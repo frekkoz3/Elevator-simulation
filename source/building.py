@@ -1,6 +1,7 @@
 from .elevator import *
 from .individual import *
 from .decision import *
+from faker import Faker
 
 class Building():
     """
@@ -21,10 +22,11 @@ class Building():
             For now it is fixed that each apartment has just 1 people inside. 
         """
         self.floors = []
+        fake = Faker()
         for floor in range (self.number_of_floors):
             apartment = []
             for j in range (self.apartment_per_floor):
-                apartment.append(Individual(floor, decision_model))
+                apartment.append(Individual(floor, fake.name(), decision_model))
             self.floors.append(apartment)
 
     def update(self):
